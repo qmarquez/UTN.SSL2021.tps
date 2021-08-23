@@ -1,40 +1,53 @@
-/* 3 posibles tokens:
-- EOF
-- SEP: coma ","
-- CAD: sucesion de caracteres que no incluya los anteriores o espacios
-*/
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include "./scanner.h"
+#include "scanner.h"
 
-int main(void)
+enum tokenType
 {
-  char c;
-  int printingString = 0;
-  int i = 0;
+  COMA = ',',
+  FDT = EOF,
+  ESPACIO = ' '
+}
 
-  while ((c = getchar()) != EOF)
+main(void)
+{
+  char token;
+  int printingString = 0;
+  int printNewLine = 0;
+  while ((token = get_token()) != FDT)
   {
-    if (isspace(c))
+    if (token == ESPACIO)
     {
+      if (printingString)
+      {
+        printf("\n");
+      }
       printingString = 0;
       continue;
     }
-    else if (c == ',')
+    else if (token == COMA)
     {
-      printingString = 0;
-      printf("\nSeparador: %c", c);
-    }
-    else
-    {
-      if (!printingString)
+      if (printingString)
       {
-        printingString = 1;
-        printf("\nCadena: ");
+        printingString = 0;
+        printf("\n");
       }
-      printf("%c", c);
+      printf("Separador: ");
+      printNewLine = 1;
+    }
+    else if (!printingString)
+    {
+      printf("Cadena: ");
+      printNewLine = 1;
+      printingString = 1;
+    }
+
+    printf("%c", token);
+
+    if (printNewLine && !printingString)
+    {
+      printNewLine = 0;
+      printf("\n");
     }
   }
-  printf("\nFin de texto:\n");
+  printf("Fin de texto: \n");
 }
