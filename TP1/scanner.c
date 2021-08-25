@@ -1,22 +1,38 @@
 #include <ctype.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include "scanner.h"
 
-int get_token()
+int get_token(char *buffer)
 {
   char c;
+  int index = 0;
 
   while ((c = getchar()) != EOF)
   {
     if (isspace(c))
     {
-      return ' ';
+      if (index)
+      {
+        return CADENA;
+      }
+      continue;
+    }
+    else if (c == ',')
+    {
+      if (index)
+      {
+        ungetc(c, stdin);
+        return CADENA;
+      }
+      buffer[0] = c;
+      buffer[1] = '\0';
+      return COMA;
     }
     else
     {
-      return c;
+      buffer[index++] = c;
     }
   }
 
-  return EOF;
+  return FDT;
 }
