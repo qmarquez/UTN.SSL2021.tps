@@ -1,19 +1,15 @@
 #include <stdio.h>
+
 #include "scanner.h"
 
-int main(void)
-{
+int main(void) {
   char buffer[128];
   char token;
 
-  while ((token = get_token(buffer)) != FDT)
-  {
-    if (token == COMA)
-    {
+  while ((token = get_token(buffer)) != FDT) {
+    if (token == COMA) {
       printf("Separador: ");
-    }
-    else if (token == CADENA)
-    {
+    } else if (token == CADENA) {
       printf("Cadena: ");
     }
 

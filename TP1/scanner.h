@@ -1,5 +1,4 @@
-enum tokenType
-{
+enum tokenType {
   FDT,
   CADENA,
   COMA
